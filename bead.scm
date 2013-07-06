@@ -6,7 +6,7 @@
           (rec (remove null? (map cdr ls))
                (cons (map car ls) acc)))))
   ;; body
-  (map length (bead-down (map (cut make-list <> 1) ls))))
+  (map length (bead-down (bead-down (map (cut make-list <> 1) ls)))))
 
 
 
@@ -22,18 +22,18 @@
 
 ; length = 100
 ;(time (sorter ls))
-; real   0.003
+; real   0.004
 ; user   0.000
 ; sys    0.000
 
 ; length = 1000
 ;(time (sorter ls))
-; real   0.242
-; user   0.230
-; sys    0.010
+; real   0.406
+; user   0.410
+; sys    0.000
 
 ; length = 10000
 ;(time (sorter ls))
-; real  28.459
-; user  27.590
-; sys    0.790
+; real  49.590
+; user  47.500
+; sys    1.380
