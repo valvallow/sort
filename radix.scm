@@ -24,6 +24,26 @@
           ls))))
 
 
+;; Gauche HEAD ver (remove list-set!)
+(define (radix-sort ls :optional (base 10))
+  (define (digit-count num)
+    (x->integer (ceiling (/ (log num)(log base)))))
+  (define (digit-of index num)
+    (modulo (quotient num (expt base index)) base))
+  (let1 count (digit-count (abs (apply max ls)))
+    (let rec ((ls ls)(index 0))
+      (if (< index count)
+          (let1 buckets (make-list base '())
+            (for-each
+             (^e (let1 digit (digit-of index e)
+                   (set! (list-ref buckets digit)
+                         (cons e (list-ref buckets digit)))))
+             ls)
+            (rec (apply append (map reverse buckets))(+ index 1)))
+          ls))))
+
+
+
 (use gauche.sequence)
 
 (define (test sorter n)
@@ -43,33 +63,33 @@
 
 ; length = 1000
 ;(time (sorter ls))
-; real   0.004
-; user   0.000
+; real   0.001
+; user   0.010
 ; sys    0.000
 
 ; length = 10000
 ;(time (sorter ls))
-; real   0.084
-; user   0.080
+; real   0.018
+; user   0.020
 ; sys    0.000
 
 ; length = 100000
 ;(time (sorter ls))
-; real   1.034
-; user   1.030
-; sys    0.010
+; real   0.235
+; user   0.230
+; sys    0.000
 
 ; length = 1000000
 ;(time (sorter ls))
-; real  13.469
-; user  13.400
+; real   2.934
+; user   2.880
 ; sys    0.040
 
 ; length = 10000000
 ;(time (sorter ls))
-; real 242.686
-; user 241.360
-; sys    0.610
+; real  36.419
+; user  35.950
+; sys    0.370
 
 
 
