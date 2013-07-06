@@ -5,7 +5,7 @@
           (null? (cdr ls)))
       ls
       (let rec ((candidates (permutations* ls)))
-        (if (apply < (car candidates))
+        (if (apply <= (car candidates))
             (car candidates)
             (rec (cdr candidates))))))
 
